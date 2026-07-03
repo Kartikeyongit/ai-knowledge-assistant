@@ -27,15 +27,10 @@ def embed_text(text: str) -> list[float]:
         text,
         model="sentence-transformers/all-MiniLM-L6-v2",
     )
-    return result.tolist()[0]
+    return result.mean(axis=0).tolist()
 
 
 def embed_texts(texts: list[str]) -> list[list[float]]:
     if len(texts) == 0:
         return []
-    client = _get_client()
-    result = client.feature_extraction(
-        texts,
-        model="sentence-transformers/all-MiniLM-L6-v2",
-    )
-    return result.tolist()
+    return [embed_text(t) for t in texts]
