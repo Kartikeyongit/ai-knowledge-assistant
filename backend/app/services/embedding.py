@@ -23,7 +23,7 @@ def _embed(inputs: str | list[str]) -> list[list[float]]:
         resp = client.post(
             HF_EMBEDDING_URL,
             headers={"Authorization": f"Bearer {settings.hf_api_token}"},
-            json={"inputs": inputs, "options": {"wait_for_model": True}},
+            json={"inputs": inputs, "normalize": True},
         )
         resp.raise_for_status()
         data = resp.json()
