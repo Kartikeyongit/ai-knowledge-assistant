@@ -7,7 +7,7 @@ from app.config import settings
 logger = logging.getLogger(__name__)
 
 HF_EMBEDDING_URL = (
-    "https://api-inference.huggingface.co/pipeline/feature-extraction/"
+    "https://router.huggingface.co/hf-inference/models/"
     "sentence-transformers/all-MiniLM-L6-v2"
 )
 
