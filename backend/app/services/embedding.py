@@ -1,5 +1,6 @@
 import logging
 
+import numpy as np
 from huggingface_hub import InferenceClient
 
 from app.config import settings
@@ -27,6 +28,7 @@ def embed_text(text: str) -> list[float]:
         text,
         model="sentence-transformers/all-MiniLM-L6-v2",
     )
+    result = np.atleast_2d(result)
     return result.mean(axis=0).tolist()
 
 
