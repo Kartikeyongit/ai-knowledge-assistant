@@ -13,6 +13,7 @@ import {
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useRouter } from "expo-router";
 import { useAuth, useUser } from "@clerk/clerk-expo";
 import type { Conversation, Document } from "../lib/api";
 import { useTheme } from "../theme";
@@ -50,6 +51,7 @@ export function Sidebar({
 }: SidebarProps) {
   const colors = useTheme();
   const insets = useSafeAreaInsets();
+  const router = useRouter();
   const { signOut } = useAuth();
   const { user } = useUser();
   const slideAnim = useRef(new Animated.Value(-SIDEBAR_WIDTH)).current;
@@ -95,7 +97,8 @@ export function Sidebar({
   const handleSignOut = useCallback(async () => {
     await signOut();
     onClose();
-  }, [signOut, onClose]);
+    router.replace("/");
+  }, [signOut, onClose, router]);
 
   const userEmail = user?.emailAddresses?.[0]?.emailAddress || user?.fullName || "";
 
@@ -119,7 +122,6 @@ export function Sidebar({
             width: SIDEBAR_WIDTH,
             backgroundColor: colors.background,
             transform: [{ translateX: slideAnim }],
-            paddingTop: insets.top,
             paddingBottom: insets.bottom,
           },
         ]}
@@ -257,7 +259,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: 18,
-    paddingVertical: 14,
+    paddingVertical: 10,
     borderBottomWidth: 1,
   },
   drawerTitle: { fontSize: 18, fontWeight: "700" },
@@ -265,13 +267,13 @@ const styles = StyleSheet.create({
   closeText: { fontSize: 20, fontWeight: "600" },
   userSection: {
     paddingHorizontal: 18,
-    paddingVertical: 10,
+    paddingVertical: 18,
     borderBottomWidth: 1,
   },
   userEmail: { fontSize: 14 },
   searchContainer: {
     paddingHorizontal: 18,
-    paddingVertical: 10,
+    paddingVertical: 18,
     borderBottomWidth: 1,
   },
   searchInput: {
@@ -309,7 +311,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: 18,
-    paddingVertical: 10,
+    paddingVertical: 18,
   },
   docSectionTitle: { fontSize: 14, fontWeight: "600" },
   clearFilterText: { fontSize: 13, fontWeight: "500" },
@@ -318,7 +320,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 18,
-    paddingVertical: 10,
+    paddingVertical: 18,
   },
   docCheck: { fontSize: 18, marginRight: 10 },
   docInfo: { flex: 1 },
@@ -327,7 +329,7 @@ const styles = StyleSheet.create({
   signOutSection: {
     borderTopWidth: 1,
     paddingHorizontal: 18,
-    paddingVertical: 14,
+    paddingVertical: 8,
   },
   signOutBtn: {
     paddingVertical: 12,

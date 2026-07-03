@@ -3,7 +3,7 @@ import os
 import uuid
 from datetime import datetime, timezone
 
-from fastapi import APIRouter, Depends, File, HTTPException, Query, UploadFile
+from fastapi import APIRouter, Depends, File, Form, HTTPException, Query, UploadFile
 from sqlalchemy.orm import Session
 
 from app.auth import AuthenticatedUser, get_current_user
@@ -22,14 +22,16 @@ router = APIRouter(prefix="/documents", tags=["documents"])
 @router.post("/upload", response_model=DocumentResponse)
 async def upload_document(
     file: UploadFile = File(...),
+    original_filename: str = Form(None),
     current_user: AuthenticatedUser = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    if not file.filename:
+    effective_filename = original_filename or file.filename
+    if not effective_filename:
         raise HTTPException(400, "No file provided")
 
     os.makedirs(settings.upload_dir, exist_ok=True)
-    file_path = os.path.join(settings.upload_dir, f"{uuid.uuid4()}_{file.filename}")
+    file_path = os.path.join(settings.upload_dir, f"{uuid.uuid4()}_{effective_filename}")
     content = await file.read()
 
     with open(file_path, "wb") as f:
@@ -40,8 +42,8 @@ async def upload_document(
 
     doc = Document(
         id=str(uuid.uuid4()),
-        title=os.path.splitext(file.filename)[0],
-        filename=file.filename,
+        title=os.path.splitext(effective_filename)[0],
+        filename=effective_filename,
         content_type=content_type,
         content=text_content,
         file_size=len(content),

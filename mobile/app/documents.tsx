@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import * as DocumentPicker from "expo-document-picker";
+import { File, UploadType } from "expo-file-system";
 import { Stack } from "expo-router";
 import { api, API_BASE, authHeaders, type Document, type DocumentDetail } from "../src/lib/api";
 import { useTheme } from "../src/theme";
@@ -62,20 +63,17 @@ export default function DocumentsScreen() {
       if (result.canceled || !result.assets?.[0]) return;
       setUploading(true);
       const picked = result.assets[0];
-      const form = new FormData();
-      // React Native's FormData accepts a custom blob-like object with uri
-      form.append("file", {
-        uri: picked.uri,
-        name: picked.name,
-        type: picked.mimeType || "application/octet-stream",
-      } as unknown as Blob);
+      const file = new File(picked.uri);
       const extra = await authHeaders();
-      const uploadResult = await fetch(`${API_BASE}/documents/upload`, {
-        method: "POST",
+      const uploadResult = await file.upload(`${API_BASE}/documents/upload`, {
+        uploadType: UploadType.MULTIPART,
+        fieldName: "file",
+        mimeType: picked.mimeType || "application/octet-stream",
+        httpMethod: "POST",
         headers: { ...extra },
-        body: form,
+        parameters: { original_filename: picked.name },
       });
-      if (!uploadResult.ok) throw new Error(`Upload failed: ${uploadResult.status}`);
+      if (uploadResult.status >= 400) throw new Error(`Upload failed: ${uploadResult.status}`);
       await loadDocs();
     } catch (e: unknown) {
       const errorMessage = e instanceof Error ? e.message : "Unknown error";

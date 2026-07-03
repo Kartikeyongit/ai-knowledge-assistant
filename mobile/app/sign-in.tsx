@@ -42,9 +42,6 @@ export default function SignInScreen() {
             <Text style={[styles.buttonText, { color: colors.background }]}>Continue with Google</Text>
           )}
         </TouchableOpacity>
-        <TouchableOpacity style={styles.skipButton} onPress={() => router.replace("/")} disabled={loading} accessibilityLabel="Skip sign in" accessibilityRole="button">
-          <Text style={[styles.skipText, { color: colors.textSecondary }]}>Skip for now</Text>
-        </TouchableOpacity>
       </View>
     </View>
   );
@@ -63,6 +60,4 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonText: { fontSize: 16, fontWeight: "600" },
-  skipButton: { marginTop: 16, padding: 14, minWidth: 44, minHeight: 44, alignItems: "center", justifyContent: "center" },
-  skipText: { fontSize: 14 },
 });

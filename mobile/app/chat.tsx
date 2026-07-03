@@ -1,10 +1,9 @@
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Alert,
   FlatList,
   InteractionManager,
   Keyboard,
-  KeyboardAvoidingView,
   StyleSheet,
   Text,
   TextInput,
@@ -12,7 +11,7 @@ import {
   View,
 } from "react-native";
 
-import { Stack, useFocusEffect, useNavigation } from "expo-router";
+import { Stack, useFocusEffect } from "expo-router";
 import { api, type Conversation, type Document, type Message } from "../src/lib/api";
 import { InputBar } from "../src/components/InputBar";
 import { MessageBubble, LoadingDots } from "../src/components/MessageBubble";
@@ -100,9 +99,9 @@ export default function ChatScreen() {
   const [showScrollFab, setShowScrollFab] = useState(false);
   const isNearBottomRef = useRef(true);
   const [initialLoading, setInitialLoading] = useState(true);
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
   const colors = useTheme();
   const insets = useSafeAreaInsets();
-  const navigation = useNavigation();
 
   const scrollToEnd = useCallback(() => {
     setTimeout(() => flatListRef.current?.scrollToEnd({ animated: true }), 0);
@@ -204,7 +203,9 @@ export default function ChatScreen() {
     try {
       const convs = await api.conversations.list(mode);
       setConvList(convs);
-      await createConversation();
+      if (convs.length === 0) {
+        await createConversation();
+      }
     } catch (e: unknown) {
       const apiError = e as { status?: number };
       const errorMessage = e instanceof Error ? e.message : "Unknown error";
@@ -222,7 +223,7 @@ export default function ChatScreen() {
     } finally {
       setInitialLoading(false);
     }
-  }, [mode, loadConversation, createConversation]);
+  }, [mode, createConversation]);
 
   const refreshConversations = useCallback(async () => {
     try {
@@ -243,6 +244,19 @@ export default function ChatScreen() {
   }, [loadConversations]);
 
   useEffect(() => {
+    if (convList.length > 0 && !conv) {
+      setConv(convList[0]);
+      loadConversation(convList[0].id);
+    }
+  }, [convList, conv, loadConversation]);
+
+  useEffect(() => {
+    const show = Keyboard.addListener("keyboardDidShow", e => setKeyboardHeight(e.endCoordinates.height));
+    const hide = Keyboard.addListener("keyboardDidHide", () => setKeyboardHeight(0));
+    return () => { show.remove(); hide.remove(); };
+  }, []);
+
+  useEffect(() => {
     return () => {
       stopTypewriter(true);
       if (abortRef.current) {
@@ -254,28 +268,14 @@ export default function ChatScreen() {
   // Reset when mode changes
   const handleModeChange = useCallback((newMode: Mode) => {
     if (newMode === mode) return;
-    const switchMode = () => {
-      cancelStream();
-      setMode(newMode);
-      setMessages([]);
-      setConv(null);
-      setConvList([]);
-      setSelectedDocIds([]);
-      setInitialLoading(true);
-    };
-    if (messages.length > 0) {
-      Alert.alert(
-        "Switch Mode?",
-        "Switching modes will clear the current conversation. Unsaved messages will be lost.",
-        [
-          { text: "Cancel", style: "cancel" },
-          { text: "Switch", style: "destructive", onPress: switchMode },
-        ]
-      );
-    } else {
-      switchMode();
-    }
-  }, [mode, cancelStream, messages.length]);
+    cancelStream();
+    setMode(newMode);
+    setMessages([]);
+    setConv(null);
+    setConvList([]);
+    setSelectedDocIds([]);
+    setInitialLoading(true);
+  }, [mode, cancelStream]);
 
   const switchConversation = useCallback((c: Conversation) => {
     cancelStream();
@@ -430,41 +430,6 @@ export default function ChatScreen() {
     setRenaming(false);
   }, [renameText, conv]);
 
-  // Dynamically update header options when theme or state changes
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTitle: () => renaming ? (
-        <Text style={{ fontSize: 17, fontWeight: "600", color: colors.text }}>Rename Conversation</Text>
-      ) : (
-        <TouchableOpacity onPress={() => { if (conv) { setRenameText(conv.title); setRenaming(true); } }} style={{ padding: 4, maxWidth: 200 }} accessibilityLabel="Tap to rename conversation" accessibilityRole="button">
-          <Text style={{ fontSize: 17, fontWeight: "600", color: colors.text }} numberOfLines={1}>{conv?.title || "Chat"}</Text>
-        </TouchableOpacity>
-      ),
-      headerLeft: () => renaming ? (
-        <TouchableOpacity onPress={() => setRenaming(false)} style={styles.headerBtn} accessibilityLabel="Cancel rename" accessibilityRole="button" accessibilityHint="Double tap to cancel renaming conversation">
-          <Text style={{ fontSize: 16, color: colors.accent }}>Cancel</Text>
-        </TouchableOpacity>
-      ) : (
-        <TouchableOpacity onPress={toggleSidebar} style={styles.headerBtn} accessibilityLabel="Open menu" accessibilityRole="button" accessibilityHint="Double tap to open sidebar with conversations and settings">
-          <Text style={{ fontSize: 20, color: colors.text }}>☰</Text>
-        </TouchableOpacity>
-      ),
-      headerRight: () => renaming ? (
-        <TouchableOpacity
-          onPress={handleRenameSave}
-          style={styles.headerBtn}
-          accessibilityLabel="Save rename"
-          accessibilityRole="button"
-          accessibilityHint="Double tap to save the new conversation name"
-        >
-          <Text style={{ fontSize: 16, fontWeight: "600", color: colors.accent }}>Save</Text>
-        </TouchableOpacity>
-      ) : (
-        <ModeSelector current={mode} onChange={handleModeChange} />
-      ),
-    });
-  }, [navigation, colors, renaming, conv, mode, selectedDocIds, toggleSidebar, handleRenameSave, handleModeChange]);
-
   if (initialLoading) {
     return (
     <View style={[styles.safe, { backgroundColor: colors.background, paddingBottom: insets.bottom }]}>
@@ -476,8 +441,8 @@ export default function ChatScreen() {
   }
 
   return (
-    <View style={[styles.safe, { backgroundColor: colors.background, paddingBottom: insets.bottom }]}>
-      <KeyboardAvoidingView style={[styles.container, { backgroundColor: colors.background }]} behavior="padding" keyboardVerticalOffset={44}>
+    <View style={[styles.safe, { backgroundColor: colors.background, paddingBottom: 12 }]}>
+      <View style={[styles.container, { backgroundColor: colors.background, marginBottom: keyboardHeight }]}>
         <Stack.Screen
           options={{
             headerTitle: () => renaming ? (
@@ -625,7 +590,7 @@ export default function ChatScreen() {
           onClearDocs={() => setSelectedDocIds([])}
           mode={mode}
         />
-      </KeyboardAvoidingView>
+      </View>
     </View>
   );
 }

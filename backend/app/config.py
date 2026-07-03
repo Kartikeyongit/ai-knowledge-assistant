@@ -14,7 +14,7 @@ class Settings(BaseSettings):
     groq_api_key: str = ""
     hf_api_token: str = ""
     embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2"
-    llm_model: str = "llama-3.1-8b-instant"
+    llm_model: str = "llama-3.3-70b-versatile"
     title_model: str = "llama-3.1-8b-instant"
     chunk_size: int = 1000
     chunk_overlap: int = 200

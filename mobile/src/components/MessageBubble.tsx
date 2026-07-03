@@ -23,7 +23,6 @@ export const MessageBubble = memo(function MessageBubble({ message }: { message:
       <View style={styles.rowRight} accessibilityRole="text" accessibilityLabel={`You: ${message.content}`}>
         <View style={[styles.userBubble, { backgroundColor: colors.userBubble }]}>
           <Text style={[styles.userText, { color: "#fff" }]}>{message.content}</Text>
-          <Text style={[styles.timestamp, { color: "rgba(255,255,255,0.5)" }]}>{timeStr}</Text>
         </View>
       </View>
     );

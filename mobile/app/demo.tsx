@@ -3,7 +3,6 @@ import {
   ActivityIndicator,
   FlatList,
   Keyboard,
-  KeyboardAvoidingView,
   StyleSheet,
   Text,
   TextInput,
@@ -29,8 +28,9 @@ export default function DemoScreen() {
   const writeIdxRef = useRef(0);
   const typewriterRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const streamMsgIdRef = useRef<string | null>(null);
-  const colors = useTheme();
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
   const insets = useSafeAreaInsets();
+  const colors = useTheme();
 
   function flushTypewriter() {
     const msgId = streamMsgIdRef.current;
@@ -84,6 +84,12 @@ export default function DemoScreen() {
   }
 
   useEffect(() => {
+    const show = Keyboard.addListener("keyboardDidShow", e => setKeyboardHeight(e.endCoordinates.height));
+    const hide = Keyboard.addListener("keyboardDidHide", () => setKeyboardHeight(0));
+    return () => { show.remove(); hide.remove(); };
+  }, []);
+
+  useEffect(() => {
     return () => {
       stopTypewriter(true);
     };
@@ -127,8 +133,8 @@ export default function DemoScreen() {
   };
 
   return (
-    <View style={[styles.safe, { backgroundColor: colors.background, paddingBottom: insets.bottom }]}>
-      <KeyboardAvoidingView style={[styles.container, { backgroundColor: colors.background }]} behavior="padding" keyboardVerticalOffset={44}>
+    <View style={[styles.safe, { backgroundColor: colors.background, paddingBottom: 12 }]}>
+      <View style={[styles.container, { backgroundColor: colors.background, marginBottom: keyboardHeight }]}>
         <Stack.Screen options={{ title: "Demo Chat" }} />
 
         <View style={{ flex: 1 }}>
@@ -154,7 +160,7 @@ export default function DemoScreen() {
           />
         </View>
 
-        <View style={[styles.bar, { backgroundColor: colors.surface, borderTopColor: colors.border }]}>
+        <View style={[styles.bar, { backgroundColor: colors.surface, borderTopColor: colors.border, paddingBottom: insets.bottom }]}>
           <TextInput
             style={[styles.input, { backgroundColor: colors.inputBg, borderColor: colors.inputBorder, color: colors.text }]}
             value={input}
@@ -181,7 +187,7 @@ export default function DemoScreen() {
             )}
           </TouchableOpacity>
         </View>
-      </KeyboardAvoidingView>
+      </View>
     </View>
   );
 }
