@@ -24,6 +24,14 @@ export default function HomePage() {
     setAuthTokenGetter(() => getToken());
   }, [getToken]);
 
+  useEffect(() => {
+    const html = document.documentElement;
+    const prev = html.style.scrollBehavior;
+    html.style.scrollBehavior = "auto";
+    window.scrollTo(0, 0);
+    html.style.scrollBehavior = prev;
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header
