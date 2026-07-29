@@ -24,7 +24,7 @@ const techs = [
 
 export function TechStackSection() {
   return (
-    <section className="py-16 relative overflow-hidden">
+    <section className="py-16 relative">
       <FloatingBackground
         icons={[
           { icon: Sparkles, className: "text-indigo-300/30 dark:text-indigo-400/20", position: "top-16 left-[10%]" },

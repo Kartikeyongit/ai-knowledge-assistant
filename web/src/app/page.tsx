@@ -15,6 +15,7 @@ import { TechStackSection } from "@/components/landing/tech-stack";
 import { DemoChatSection } from "@/components/landing/demo-chat";
 import { FAQSection } from "@/components/landing/faq";
 import { FooterSection } from "@/components/landing/footer";
+import { PageBackground } from "@/components/landing/page-background";
 
 export default function HomePage() {
   const { getToken, isSignedIn } = useAuth();
@@ -22,6 +23,13 @@ export default function HomePage() {
   useEffect(() => {
     setAuthTokenGetter(() => getToken());
   }, [getToken]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.history.scrollRestoration = "manual";
+      window.scrollTo(0, 0);
+    }
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -48,7 +56,8 @@ export default function HomePage() {
         }
       />
 
-      <main className="flex-1">
+      <main className="flex-1 relative overflow-hidden">
+        <PageBackground />
         <HeroSection />
 
         <div className="max-w-6xl mx-auto px-4">

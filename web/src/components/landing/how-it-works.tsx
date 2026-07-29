@@ -27,7 +27,7 @@ const steps = [
 
 export function HowItWorksSection() {
   return (
-    <section id="how-it-works" className="py-20 relative overflow-hidden">
+    <section id="how-it-works" className="py-20 relative">
       <FloatingBackground
         icons={[
           { icon: FileText, className: "text-indigo-300/30 dark:text-indigo-400/20", position: "top-16 left-[8%]" },

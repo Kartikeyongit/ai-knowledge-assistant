@@ -98,7 +98,7 @@ function FeatureCard({ feature, index }: { feature: Feature; index: number }) {
 
 export function FeaturesSection() {
   return (
-    <section id="features" className="py-20 relative overflow-hidden">
+    <section id="features" className="py-20 relative">
       <FloatingBackground
         icons={[
           { icon: FileText, className: "text-indigo-300/30 dark:text-indigo-400/20", position: "top-20 left-[10%]" },

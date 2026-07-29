@@ -61,7 +61,7 @@ export function DemoChatSection() {
   };
 
   return (
-    <section id="demo" className="py-20 relative overflow-hidden">
+    <section id="demo" className="py-20 relative">
       <FloatingBackground
         icons={[
           { icon: Search, className: "text-indigo-300/30 dark:text-indigo-400/20", position: "top-20 left-[10%]" },
