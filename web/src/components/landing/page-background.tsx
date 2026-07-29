@@ -2,7 +2,7 @@
 
 export function PageBackground() {
   return (
-    <div className="absolute inset-0 pointer-events-none">
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
       <div
         className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]"
         style={{

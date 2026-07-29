@@ -49,7 +49,7 @@ export default function HomePage() {
         }
       />
 
-      <main className="flex-1 relative overflow-x-hidden">
+      <main className="flex-1 relative">
         <PageBackground />
         <HeroSection />
 
