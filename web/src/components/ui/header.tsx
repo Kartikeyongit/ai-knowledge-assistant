@@ -1,6 +1,6 @@
 "use client";
 
-import { ClerkLoaded, UserButton } from "@clerk/nextjs";
+import { ClerkLoaded, UserButton, useAuth } from "@clerk/nextjs";
 import Link from "next/link";
 import { Sparkles } from "lucide-react";
 import { ThemeToggle } from "./theme-toggle";
@@ -9,7 +9,15 @@ interface HeaderProps {
   rightContent?: React.ReactNode;
 }
 
+const navLinks = [
+  { href: "#features", label: "Features" },
+  { href: "#how-it-works", label: "How It Works" },
+  { href: "#faq", label: "FAQ" },
+];
+
 export function Header({ rightContent }: HeaderProps) {
+  const { isSignedIn } = useAuth();
+
   return (
     <header className="sticky top-0 z-40 border-b border-neutral-200/70 dark:border-neutral-800/50 bg-white/80 dark:bg-neutral-950/80 backdrop-blur-xl">
       <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
@@ -21,7 +29,18 @@ export function Header({ rightContent }: HeaderProps) {
             AI Knowledge Assistant
           </span>
         </Link>
-        <nav className="flex items-center gap-2">
+        <nav className="hidden md:flex items-center gap-6">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="text-sm text-neutral-500 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-neutral-200 transition-colors"
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+        <div className="flex items-center gap-2">
           {rightContent}
           <ThemeToggle />
           <ClerkLoaded>
@@ -30,7 +49,7 @@ export function Header({ rightContent }: HeaderProps) {
               afterSignOutUrl="/"
             />
           </ClerkLoaded>
-        </nav>
+        </div>
       </div>
     </header>
   );

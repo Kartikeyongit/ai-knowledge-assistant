@@ -5,7 +5,11 @@
 @theme {
   --animate-gradient-1: gradient-shift 8s ease-in-out infinite;
   --animate-gradient-2: gradient-shift 12s ease-in-out infinite reverse;
+  --animate-gradient-3: gradient-shift 10s ease-in-out infinite;
   --animate-shimmer: shimmer 2s infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-float-delayed: float 6s ease-in-out 2s infinite;
+  --animate-float-slow: float 8s ease-in-out 4s infinite;
 }
 
 @keyframes gradient-shift {
@@ -20,9 +24,19 @@
   100% { background-position: 200% 0; }
 }
 
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-16px); }
+}
+
 @keyframes toast-out {
   from { opacity: 1; transform: translateX(0); }
   to { opacity: 0; transform: translateX(100%); }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 :root {
@@ -69,6 +83,7 @@ a {
 html {
   scrollbar-width: thin;
   scrollbar-color: hsl(0 0% 80%) transparent;
+  scroll-behavior: smooth;
 }
 
 .toast-exit {
