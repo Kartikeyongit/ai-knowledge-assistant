@@ -75,7 +75,7 @@ export function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section id="faq" className="py-16 relative">
+    <section id="faq" className="relative">
       <FloatingBackground
         icons={[
           { icon: HelpCircle, className: "text-indigo-300/30 dark:text-indigo-400/20", position: "top-20 left-[10%]" },
