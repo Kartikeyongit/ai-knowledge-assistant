@@ -19,7 +19,7 @@ export function Header({ rightContent }: HeaderProps) {
   const { isSignedIn } = useAuth();
 
   return (
-    <header className="sticky top-0 z-40 border-b border-neutral-200/70 dark:border-neutral-800/50 bg-white/80 dark:bg-neutral-950/80 backdrop-blur-xl">
+    <header className="sticky top-0 z-40 border-b border-neutral-200/70 dark:border-neutral-800/50 bg-white dark:bg-neutral-950 backdrop-blur-xl">
       <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2.5 group">
           <div className="size-8 rounded-xl bg-neutral-800 dark:bg-neutral-200 flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">

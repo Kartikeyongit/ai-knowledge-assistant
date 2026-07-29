@@ -11,7 +11,7 @@ export function HeroSection() {
   const { isSignedIn } = useAuth();
 
   return (
-    <section id="hero" className="relative pt-16 pb-20 text-center">
+    <section id="hero" className="relative pt-24 pb-20 text-center">
       <FloatingBackground
         icons={[
           { icon: FileText, className: "text-indigo-300/40 dark:text-indigo-400/30", position: "top-24 left-[15%]" },
