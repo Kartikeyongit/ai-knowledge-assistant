@@ -24,10 +24,14 @@ export function DemoChatSection() {
   const [messages, setMessages] = useState<{ role: string; content: string }[]>([]);
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    const container = messagesContainerRef.current;
+    if (container) {
+      container.scrollTop = container.scrollHeight;
+    }
   }, [messages]);
 
   const autoResize = () => {
@@ -93,7 +97,7 @@ export function DemoChatSection() {
           className="max-w-2xl mx-auto"
         >
           <div className="rounded-2xl border border-neutral-200/70 dark:border-neutral-800/50 bg-white/70 dark:bg-neutral-900/50 backdrop-blur-xl overflow-hidden">
-            <div className="h-72 overflow-y-auto p-4 space-y-3">
+            <div ref={messagesContainerRef} className="h-72 overflow-y-auto p-4 space-y-3">
               {messages.length === 0 ? (
                 <div className="text-center py-8 space-y-4">
                   <p className="text-sm text-neutral-400">
