@@ -2,7 +2,8 @@
 
 import { motion, useMotionValue, animate, useMotionValueEvent } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { Files, Users, Clock, FileText } from "lucide-react";
+import { Files, Users, Clock, FileText, Search, Sparkles } from "lucide-react";
+import { FloatingBackground } from "./floating-background";
 
 const stats = [
   { icon: Files, value: 10000, suffix: "+", label: "Documents Processed", prefix: "" },
@@ -54,8 +55,15 @@ function AnimatedCounter({
 
 export function StatsSection() {
   return (
-    <section className="py-16 relative">
-      <div className="max-w-6xl mx-auto px-4">
+    <section className="py-16 relative overflow-hidden">
+      <FloatingBackground
+        icons={[
+          { icon: Sparkles, className: "text-indigo-300/30 dark:text-indigo-400/20", position: "top-12 left-[12%]" },
+          { icon: Search, className: "text-teal-300/30 dark:text-teal-400/20", position: "top-24 right-[15%]" },
+          { icon: FileText, className: "text-amber-300/30 dark:text-amber-400/20", position: "bottom-16 left-[18%]" },
+        ]}
+      />
+      <div className="max-w-6xl mx-auto px-4 relative">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {stats.map((stat, index) => (
             <motion.div

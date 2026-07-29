@@ -2,9 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { Send, Sparkles, User } from "lucide-react";
+import { Send, Sparkles, User, Search, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Markdown } from "@/components/ui/markdown";
+import { FloatingBackground } from "./floating-background";
 
 const SUGGESTIONS = [
   "What is this app?",
@@ -60,8 +61,15 @@ export function DemoChatSection() {
   };
 
   return (
-    <section id="demo" className="py-20 relative">
-      <div className="max-w-6xl mx-auto px-4">
+    <section id="demo" className="py-20 relative overflow-hidden">
+      <FloatingBackground
+        icons={[
+          { icon: Search, className: "text-indigo-300/30 dark:text-indigo-400/20", position: "top-20 left-[10%]" },
+          { icon: FileText, className: "text-teal-300/30 dark:text-teal-400/20", position: "top-32 right-[12%]" },
+          { icon: Sparkles, className: "text-amber-300/30 dark:text-amber-400/20", position: "bottom-28 left-[15%]" },
+        ]}
+      />
+      <div className="max-w-6xl mx-auto px-4 relative">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}

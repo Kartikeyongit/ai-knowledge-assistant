@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, HelpCircle, Search, Sparkles } from "lucide-react";
+import { FloatingBackground } from "./floating-background";
 
 const faqs = [
   {
@@ -74,8 +75,15 @@ export function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section id="faq" className="py-20 relative">
-      <div className="max-w-6xl mx-auto px-4">
+    <section id="faq" className="py-20 relative overflow-hidden">
+      <FloatingBackground
+        icons={[
+          { icon: HelpCircle, className: "text-indigo-300/30 dark:text-indigo-400/20", position: "top-20 left-[10%]" },
+          { icon: Search, className: "text-teal-300/30 dark:text-teal-400/20", position: "top-32 right-[12%]" },
+          { icon: Sparkles, className: "text-amber-300/30 dark:text-amber-400/20", position: "bottom-24 left-[15%]" },
+        ]}
+      />
+      <div className="max-w-6xl mx-auto px-4 relative">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}

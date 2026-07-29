@@ -5,47 +5,20 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, FileText, Search, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { FloatingBackground } from "./floating-background";
 
 export function HeroSection() {
   const { isSignedIn } = useAuth();
 
   return (
     <section id="hero" className="relative pt-16 pb-20 text-center overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none">
-        <div
-          className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)",
-            backgroundSize: "40px 40px",
-          }}
-        />
-        <div className="absolute -top-48 -right-48 size-96 rounded-full bg-indigo-400/15 dark:bg-indigo-500/10 blur-3xl animate-gradient-1" />
-        <div className="absolute -bottom-48 -left-48 size-96 rounded-full bg-teal-400/15 dark:bg-teal-500/10 blur-3xl animate-gradient-2" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[500px] rounded-full bg-neutral-400/5 dark:bg-neutral-500/5 blur-3xl animate-gradient-3" />
-
-        <motion.div
-          animate={{ y: [0, -12, 0] }}
-          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-24 left-[15%] hidden lg:block"
-        >
-          <FileText className="size-6 text-indigo-300/40 dark:text-indigo-400/30" />
-        </motion.div>
-        <motion.div
-          animate={{ y: [0, -16, 0] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          className="absolute top-32 right-[18%] hidden lg:block"
-        >
-          <Search className="size-6 text-teal-300/40 dark:text-teal-400/30" />
-        </motion.div>
-        <motion.div
-          animate={{ y: [0, -10, 0] }}
-          transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-          className="absolute bottom-40 left-[20%] hidden lg:block"
-        >
-          <Sparkles className="size-5 text-amber-300/40 dark:text-amber-400/30" />
-        </motion.div>
-      </div>
+      <FloatingBackground
+        icons={[
+          { icon: FileText, className: "text-indigo-300/40 dark:text-indigo-400/30", position: "top-24 left-[15%]" },
+          { icon: Search, className: "text-teal-300/40 dark:text-teal-400/30", position: "top-32 right-[18%]" },
+          { icon: Sparkles, className: "text-amber-300/40 dark:text-amber-400/30", position: "bottom-40 left-[20%]" },
+        ]}
+      />
 
       <div className="max-w-6xl mx-auto px-4 relative">
         <motion.div

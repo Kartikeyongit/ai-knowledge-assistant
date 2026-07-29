@@ -8,7 +8,10 @@ import {
   Cpu,
   GitBranch,
   Palette,
+  Sparkles,
+  Search,
 } from "lucide-react";
+import { FloatingBackground } from "./floating-background";
 
 const techs = [
   { name: "Next.js", icon: Globe },
@@ -21,8 +24,15 @@ const techs = [
 
 export function TechStackSection() {
   return (
-    <section className="py-16 relative">
-      <div className="max-w-6xl mx-auto px-4">
+    <section className="py-16 relative overflow-hidden">
+      <FloatingBackground
+        icons={[
+          { icon: Sparkles, className: "text-indigo-300/30 dark:text-indigo-400/20", position: "top-16 left-[10%]" },
+          { icon: Search, className: "text-teal-300/30 dark:text-teal-400/20", position: "top-20 right-[12%]" },
+          { icon: Globe, className: "text-amber-300/30 dark:text-amber-400/20", position: "bottom-20 left-[15%]" },
+        ]}
+      />
+      <div className="max-w-6xl mx-auto px-4 relative">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}

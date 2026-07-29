@@ -1,8 +1,9 @@
 "use client";
 
 import { useRef, type ReactNode } from "react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
-import { FileText, Search, MessageSquare, Files, Quote } from "lucide-react";
+import { motion } from "framer-motion";
+import { FileText, Search, MessageSquare, Files, Quote, Sparkles } from "lucide-react";
+import { FloatingBackground } from "./floating-background";
 
 interface Feature {
   icon: ReactNode;
@@ -51,62 +52,61 @@ const features: Feature[] = [
 ];
 
 function FeatureCard({ feature, index }: { feature: Feature; index: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const rotateX = useSpring(x, { stiffness: 300, damping: 20 });
-  const rotateY = useSpring(y, { stiffness: 300, damping: 20 });
+  const cardRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    const el = ref.current;
+    const el = cardRef.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
     const px = (e.clientX - rect.left) / rect.width;
     const py = (e.clientY - rect.top) / rect.height;
-    x.set(px - 0.5);
-    y.set(py - 0.5);
+    const tiltX = (py - 0.5) * -12;
+    const tiltY = (px - 0.5) * 12;
+    el.style.transform = `perspective(800px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
   };
 
   const handleMouseLeave = () => {
-    x.set(0);
-    y.set(0);
+    const el = cardRef.current;
+    if (!el) return;
+    el.style.transform = "perspective(800px) rotateX(0deg) rotateY(0deg)";
   };
 
   return (
     <motion.div
-      ref={ref}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.4, delay: index * 0.08 }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{
-        perspective: 800,
-        transformStyle: "preserve-3d",
-      }}
+      className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"
     >
-      <motion.div
-        style={{
-          rotateX: rotateX as any,
-          rotateY: rotateY as any,
-        }}
-        className="group rounded-xl border border-neutral-200/70 dark:border-neutral-800/50 bg-white/70 dark:bg-neutral-900/50 backdrop-blur-xl p-6 text-left hover:shadow-lg hover:shadow-neutral-500/5 hover:border-neutral-300/50 dark:hover:border-neutral-700/50 transition-all duration-300 hover:-translate-y-0.5 h-full"
+      <div
+        ref={cardRef}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        className="group rounded-xl border border-neutral-200/70 dark:border-neutral-800/50 bg-white/70 dark:bg-neutral-900/50 backdrop-blur-xl p-6 text-left hover:shadow-lg hover:shadow-neutral-500/5 hover:border-neutral-300/50 dark:hover:border-neutral-700/50 transition-shadow duration-300 h-full"
+        style={{ transition: "transform 0.15s ease-out" }}
       >
         <div className={`size-10 rounded-xl ${feature.accent} ${feature.darkAccent} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
           {feature.icon}
         </div>
         <h3 className="font-semibold mb-2">{feature.title}</h3>
         <p className="text-sm text-neutral-600 dark:text-neutral-400">{feature.description}</p>
-      </motion.div>
+      </div>
     </motion.div>
   );
 }
 
 export function FeaturesSection() {
   return (
-    <section id="features" className="py-20 relative">
-      <div className="max-w-6xl mx-auto px-4">
+    <section id="features" className="py-20 relative overflow-hidden">
+      <FloatingBackground
+        icons={[
+          { icon: FileText, className: "text-indigo-300/30 dark:text-indigo-400/20", position: "top-20 left-[10%]" },
+          { icon: Search, className: "text-teal-300/30 dark:text-teal-400/20", position: "top-40 right-[12%]" },
+          { icon: Sparkles, className: "text-amber-300/30 dark:text-amber-400/20", position: "bottom-32 left-[15%]" },
+        ]}
+      />
+      <div className="max-w-6xl mx-auto px-4 relative">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -122,15 +122,10 @@ export function FeaturesSection() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.slice(0, 3).map((feature, i) => (
+        <div className="flex flex-wrap justify-center gap-6">
+          {features.map((feature, i) => (
             <FeatureCard key={feature.title} feature={feature} index={i} />
           ))}
-          <div className="sm:col-span-2 lg:col-span-1 lg:col-start-2">
-            {features.slice(3).map((feature, i) => (
-              <FeatureCard key={feature.title} feature={feature} index={i + 3} />
-            ))}
-          </div>
         </div>
       </div>
     </section>
