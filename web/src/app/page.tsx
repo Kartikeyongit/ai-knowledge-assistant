@@ -24,13 +24,6 @@ export default function HomePage() {
     setAuthTokenGetter(() => getToken());
   }, [getToken]);
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      window.history.scrollRestoration = "manual";
-      window.scrollTo(0, 0);
-    }
-  }, []);
-
   return (
     <div className="flex flex-col min-h-screen">
       <Header
@@ -56,7 +49,7 @@ export default function HomePage() {
         }
       />
 
-      <main className="flex-1 relative overflow-hidden">
+      <main className="flex-1 relative">
         <PageBackground />
         <HeroSection />
 

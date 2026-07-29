@@ -31,6 +31,9 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{
           __html: `(function(){try{var e=localStorage.getItem("theme");if(e==="dark"||(e==="system"&&window.matchMedia("(prefers-color-scheme:dark)").matches)||(!e&&window.matchMedia("(prefers-color-scheme:dark)").matches))document.documentElement.classList.add("dark")}catch(e){}})()`
         }} />
+        <script dangerouslySetInnerHTML={{
+          __html: `history.scrollRestoration="manual";window.scrollTo(0,0)`
+        }} />
       </head>
       <body className="min-h-full flex flex-col">
         <Providers>{children}</Providers>
