@@ -648,7 +648,7 @@ export default function ChatPage() {
                           ? "max-w-[80%] md:max-w-[65%] lg:max-w-[55%] rounded-2xl px-3 py-2 bg-neutral-700 text-white dark:bg-white dark:text-neutral-900"
                           : isError
                           ? "rounded-2xl px-4 py-3 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800"
-                          : "flex-1 min-w-0 relative"
+                          : "flex-1 min-w-0 relative overflow-x-hidden"
                       }`}>
                         {isError && <span className="text-red-500 font-bold mr-1">!</span>}
                         {msg.role === "assistant" && !isError ? (
@@ -664,7 +664,7 @@ export default function ChatPage() {
                             } catch {}
                           }
                           return parsedSources.length > 0 ? (
-                            <details className="mt-3 text-xs text-neutral-500 overflow-x-hidden">
+                            <details className="mt-3 text-xs text-neutral-500">
                               <summary className="cursor-pointer hover:text-neutral-700 font-medium">Sources ({parsedSources.length})</summary>
                               <div className="mt-2 space-y-2 bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-700 rounded-lg p-3 shadow-lg max-h-60 overflow-y-auto">
                                 {parsedSources.map((s, i) => (
