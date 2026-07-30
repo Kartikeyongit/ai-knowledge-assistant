@@ -19,7 +19,7 @@ import { FooterSection } from "@/components/landing/footer";
 import { PageBackground } from "@/components/landing/page-background";
 
 export default function HomePage() {
-  const { getToken, isSignedIn } = useAuth();
+  const { getToken, isSignedIn, isLoaded } = useAuth();
   const router = useRouter();
   const wasSignedIn = useRef(isSignedIn);
 
@@ -94,9 +94,9 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-4">
           <div className="h-px bg-gradient-to-r from-transparent via-neutral-300/50 dark:via-neutral-700/50 to-transparent" />
         </div>
-        {!isSignedIn && <DemoChatSection />}
+        {isLoaded && !isSignedIn && <DemoChatSection />}
 
-        {!isSignedIn && (
+        {isLoaded && !isSignedIn && (
           <div className="max-w-6xl mx-auto px-4">
             <div className="h-px bg-gradient-to-r from-transparent via-neutral-300/50 dark:via-neutral-700/50 to-transparent" />
           </div>
