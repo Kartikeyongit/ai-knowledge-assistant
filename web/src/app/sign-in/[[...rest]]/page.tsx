@@ -22,6 +22,7 @@ export default function SignInPage() {
           </span>
         </div>
         <SignIn
+          afterSignInUrl="/chat"
           appearance={{
             elements: {
               rootBox: "mx-auto",

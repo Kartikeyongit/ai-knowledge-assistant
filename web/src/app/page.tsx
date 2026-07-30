@@ -2,7 +2,8 @@
 
 import { SignInButton, useAuth } from "@clerk/nextjs";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef } from "react";
 import { LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/ui/header";
@@ -19,6 +20,15 @@ import { PageBackground } from "@/components/landing/page-background";
 
 export default function HomePage() {
   const { getToken, isSignedIn } = useAuth();
+  const router = useRouter();
+  const wasSignedIn = useRef(isSignedIn);
+
+  useEffect(() => {
+    if (isSignedIn && !wasSignedIn.current) {
+      router.push("/chat");
+    }
+    wasSignedIn.current = isSignedIn;
+  }, [isSignedIn, router]);
 
   useEffect(() => {
     setAuthTokenGetter(() => getToken());
