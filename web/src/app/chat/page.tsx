@@ -583,7 +583,7 @@ export default function ChatPage() {
               </div>
             </div>
             {mode === "rag" && documents.length > 0 && (
-              <div className="p-3">
+              <div className="p-3 mb-2">
                 <h3 className="text-xs font-semibold uppercase tracking-wider text-neutral-500 mb-3">Filter Documents</h3>
                 {documents.map((doc) => (
                   <button
