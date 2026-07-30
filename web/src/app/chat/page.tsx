@@ -583,7 +583,7 @@ export default function ChatPage() {
               </div>
             </div>
             {mode === "rag" && documents.length > 0 && (
-              <div className="p-3 mb-2">
+              <div className="p-3">
                 <h3 className="text-xs font-semibold uppercase tracking-wider text-neutral-500 mb-3">Filter Documents</h3>
                 {documents.map((doc) => (
                   <button
@@ -666,7 +666,7 @@ export default function ChatPage() {
                           return parsedSources.length > 0 ? (
                             <details className="mt-3 text-xs text-neutral-500 relative">
                               <summary className="cursor-pointer hover:text-neutral-700 font-medium">Sources ({parsedSources.length})</summary>
-                              <div className="absolute left-0 right-0 z-20 mt-2 space-y-2 bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-700 rounded-lg p-3 shadow-lg max-h-60 overflow-y-auto">
+                              <div className="absolute left-0 right-0 z-20 mt-2 mb-2 space-y-2 bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-700 rounded-lg p-3 shadow-lg max-h-60 overflow-y-auto">
                                 {parsedSources.map((s, i) => (
                                   <div key={i} className="p-3 rounded-lg bg-neutral-50 dark:bg-neutral-800 border border-neutral-200/50 dark:border-neutral-700">
                                     <div className="font-medium text-neutral-700 dark:text-neutral-300 text-xs">{s.title}</div>
