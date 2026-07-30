@@ -1,6 +1,6 @@
 "use client";
 
-import { ClerkLoaded, UserButton } from "@clerk/nextjs";
+import { ClerkLoaded, ClerkLoading, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Sparkles } from "lucide-react";
@@ -45,14 +45,17 @@ export function Header({ rightContent }: HeaderProps) {
           </nav>
         )}
         <div className="flex items-center gap-2">
+          {rightContent}
+          <ThemeToggle />
+          <ClerkLoading>
+            <div className="size-8 rounded-full bg-neutral-200 dark:bg-neutral-800 animate-pulse" />
+          </ClerkLoading>
           <ClerkLoaded>
-            {rightContent}
             <UserButton
               // @ts-expect-error - Clerk SDK prop type mismatch
               afterSignOutUrl="/"
             />
           </ClerkLoaded>
-          <ThemeToggle />
         </div>
       </div>
     </header>
