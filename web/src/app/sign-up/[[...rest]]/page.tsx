@@ -1,7 +1,6 @@
 "use client";
 
 import { SignUp } from "@clerk/nextjs";
-import { Sparkles } from "lucide-react";
 import { useEffect } from "react";
 
 export default function SignUpPage() {
@@ -14,9 +13,6 @@ export default function SignUpPage() {
       </div>
       <div className="flex flex-col items-center gap-8 relative">
         <div className="flex items-center gap-2.5">
-          <div className="size-10 rounded-xl bg-neutral-800 dark:bg-neutral-200 flex items-center justify-center shadow-sm">
-            <Sparkles className="size-5 text-white dark:text-neutral-800" />
-          </div>
           <span className="text-xl font-bold text-neutral-900 dark:text-neutral-100">
             AI Knowledge Assistant
           </span>

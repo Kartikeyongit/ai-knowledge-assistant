@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Sparkles, User, Send, MessageSquare, Plus, Trash2, Square } from "lucide-react";
+import { Send, MessageSquare, Plus, Trash2, Square } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/ui/header";
 import { Markdown } from "@/components/ui/markdown";
@@ -607,11 +607,8 @@ export default function ChatPage() {
         <div className="flex-1 flex flex-col min-h-0">
           <div ref={chatContainerRef} className="flex-1 overflow-y-auto min-h-0 flex flex-col">
             {(!detail || detail.messages.length === 0) ? (
-              <div className="flex-1 flex items-center justify-center">
+                <div className="flex-1 flex items-center justify-center">
                 <div className="max-w-md mx-auto text-center space-y-4">
-                  <div className="size-16 rounded-2xl bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center mx-auto">
-                    <Sparkles className="size-7 text-neutral-600 dark:text-neutral-400" />
-                  </div>
                   <div>
                     <h2 className="text-xl font-semibold mb-1">
                       {mode === "agent" ? "AI Agent Mode" : "RAG Search Mode"}
@@ -646,11 +643,6 @@ export default function ChatPage() {
                       transition={{ duration: 0.2 }}
                       className={`flex gap-3 ${msg.role === "user" ? "justify-end" : "justify-start"}`}
                     >
-                      {msg.role === "assistant" && (
-                        <div className="size-8 rounded-xl bg-neutral-700 dark:bg-neutral-200 flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
-                          <Sparkles className="size-4 text-white dark:text-neutral-800" />
-                        </div>
-                      )}
                       <div className={`${
                         msg.role === "user"
                           ? "max-w-[80%] md:max-w-[65%] lg:max-w-[55%] rounded-2xl px-3 py-2 bg-neutral-700 text-white dark:bg-white dark:text-neutral-900"
@@ -686,20 +678,12 @@ export default function ChatPage() {
                           ) : null;
                         })()}
                       </div>
-                      {msg.role === "user" && (
-                        <div className="size-8 rounded-xl bg-neutral-200 dark:bg-neutral-700 flex items-center justify-center shrink-0 mt-0.5">
-                          <User className="size-4 text-neutral-600 dark:text-neutral-400" />
-                        </div>
-                      )}
                     </motion.div>
                   );
                 })}
 
                 {loading && (
                   <div className="flex gap-3 justify-start">
-                    <div className="size-8 rounded-xl bg-neutral-700 dark:bg-neutral-200 flex items-center justify-center shrink-0 shadow-sm">
-                      <Sparkles className="size-4 text-white dark:text-neutral-800" />
-                    </div>
                     <div className="rounded-xl px-3.5 py-2.5 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200/50 dark:border-neutral-700/50">
                       <div className="flex gap-1 items-center h-4">
                         <span className="size-1.5 rounded-full bg-neutral-400 animate-bounce [animation-delay:0ms]" />

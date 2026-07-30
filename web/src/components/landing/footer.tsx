@@ -1,4 +1,3 @@
-import { Sparkles } from "lucide-react";
 import Link from "next/link";
 
 export function FooterSection() {
@@ -8,9 +7,6 @@ export function FooterSection() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-2">
             <Link href="/" className="flex items-center gap-2.5 mb-3">
-              <div className="size-8 rounded-xl bg-neutral-800 dark:bg-neutral-200 flex items-center justify-center shadow-sm">
-                <Sparkles className="size-4 text-white dark:text-neutral-800" />
-              </div>
               <span className="font-semibold text-neutral-900 dark:text-neutral-100">
                 AI Knowledge Assistant
               </span>

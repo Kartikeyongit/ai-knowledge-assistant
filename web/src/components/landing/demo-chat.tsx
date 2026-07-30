@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { Send, Sparkles, User, Search, FileText } from "lucide-react";
+import { Send, Search, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Markdown } from "@/components/ui/markdown";
 import { FloatingBackground } from "./floating-background";
@@ -70,7 +70,6 @@ export function DemoChatSection() {
         icons={[
           { icon: Search, className: "text-indigo-300/30 dark:text-indigo-400/20", position: "top-20 left-[10%]" },
           { icon: FileText, className: "text-teal-300/30 dark:text-teal-400/20", position: "top-32 right-[12%]" },
-          { icon: Sparkles, className: "text-amber-300/30 dark:text-amber-400/20", position: "bottom-28 left-[15%]" },
         ]}
       />
       <div className="max-w-6xl mx-auto px-4 relative">
@@ -121,11 +120,6 @@ export function DemoChatSection() {
                     key={i}
                     className={`flex gap-3 ${msg.role === "user" ? "justify-end" : "justify-start"}`}
                   >
-                    {msg.role === "assistant" && (
-                      <div className="size-8 rounded-xl bg-neutral-700 dark:bg-neutral-200 flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
-                        <Sparkles className="size-4 text-white dark:text-neutral-800" />
-                      </div>
-                    )}
                     <div
                       className={
                         msg.role === "user"
@@ -139,19 +133,12 @@ export function DemoChatSection() {
                         <div className="text-sm whitespace-pre-wrap break-words">{msg.content}</div>
                       )}
                     </div>
-                    {msg.role === "user" && (
-                      <div className="size-8 rounded-xl bg-neutral-200 dark:bg-neutral-700 flex items-center justify-center shrink-0 mt-0.5">
-                        <User className="size-4 text-neutral-600 dark:text-neutral-400" />
-                      </div>
-                    )}
+
                   </div>
                 ))
               )}
               {loading && (
                 <div className="flex gap-3 justify-start">
-                  <div className="size-7 rounded-lg bg-neutral-700 dark:bg-neutral-200 flex items-center justify-center shrink-0">
-                    <Sparkles className="size-3.5 text-white dark:text-neutral-800" />
-                  </div>
                   <div className="rounded-xl px-4 py-2 bg-neutral-100 dark:bg-neutral-800">
                     <div className="flex gap-1 items-center h-4">
                       <span className="size-1.5 rounded-full bg-neutral-400 animate-bounce [animation-delay:0ms]" />
