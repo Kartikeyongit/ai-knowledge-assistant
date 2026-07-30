@@ -22,7 +22,7 @@ export default function SignUpPage() {
           </span>
         </div>
         <SignUp
-          afterSignUpUrl="/chat"
+          forceRedirectUrl="/chat"
           appearance={{
             elements: {
               rootBox: "mx-auto",

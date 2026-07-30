@@ -22,7 +22,7 @@ export default function SignInPage() {
           </span>
         </div>
         <SignIn
-          afterSignInUrl="/chat"
+          forceRedirectUrl="/chat"
           appearance={{
             elements: {
               rootBox: "mx-auto",
