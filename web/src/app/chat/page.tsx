@@ -631,7 +631,7 @@ export default function ChatPage() {
                 </div>
               </div>
             ) : (
-              <div className="max-w-6xl mx-auto w-full px-4 py-6 space-y-4 pb-60">
+              <div className="max-w-6xl mx-auto w-full px-4 py-6 space-y-4">
 
                   {detail?.messages.map((msg) => {
                   const isError = msg.id.startsWith("err-");
@@ -664,9 +664,9 @@ export default function ChatPage() {
                             } catch {}
                           }
                           return parsedSources.length > 0 ? (
-                            <details className="mt-3 text-xs text-neutral-500 relative">
+                            <details className="mt-3 text-xs text-neutral-500 overflow-x-hidden">
                               <summary className="cursor-pointer hover:text-neutral-700 font-medium">Sources ({parsedSources.length})</summary>
-                              <div className="absolute left-0 right-0 z-20 mt-2 space-y-2 bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-700 rounded-lg p-3 shadow-lg max-h-60 overflow-y-auto">
+                              <div className="mt-2 space-y-2 bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-700 rounded-lg p-3 shadow-lg max-h-60 overflow-y-auto">
                                 {parsedSources.map((s, i) => (
                                   <div key={i} className="p-3 rounded-lg bg-neutral-50 dark:bg-neutral-800 border border-neutral-200/50 dark:border-neutral-700">
                                     <div className="font-medium text-neutral-700 dark:text-neutral-300 text-xs">{s.title}</div>
